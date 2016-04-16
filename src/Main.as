@@ -2,6 +2,7 @@ package
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import ru.marstefo.sunscouts.views.ControlView;
 	
 	/**
 	 * ...
@@ -20,6 +21,7 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
+			addChild(new ControlView());
 		}
 		
 	}
