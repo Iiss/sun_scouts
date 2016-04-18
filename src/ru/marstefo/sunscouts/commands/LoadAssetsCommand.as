@@ -7,6 +7,7 @@ package ru.marstefo.sunscouts.commands
 	import ru.marstefo.liss.network.FaultEvent;
 	import ru.marstefo.liss.network.DataLoaderDataFormat;
 	import br.com.stimuli.loading.BulkProgressEvent;
+	import ru.marstefo.sunscouts.models.LocaleModel;
 	
 	public class LoadAssetsCommand extends Command 
 	{
@@ -15,6 +16,9 @@ package ru.marstefo.sunscouts.commands
 		private static const MAP_URL:String = "data/geo_map.jpg";
 		
 		private var _dataLoader:BulkLoader;
+		
+		[Inject]
+		public var localeModel:LocaleModel;
 		
 		public function LoadAssetsCommand() 
 		{
@@ -35,8 +39,7 @@ package ru.marstefo.sunscouts.commands
 		
 		private function _onResult(e:BulkProgressEvent):void
 		{ 
-			trace(_dataLoader.getXML("gamedata",true)); 
-			trace(_dataLoader.getXML("locale",true)); 
+			localeModel.configure(_dataLoader.getXML("locale", true));
 		}
 		
 		private function _onError(e:*):void
