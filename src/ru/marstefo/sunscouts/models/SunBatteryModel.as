@@ -10,11 +10,9 @@ package ru.marstefo.sunscouts.models
 		private var _enabled:Boolean;
 		private var _opened:Boolean;
 		
-		public function SunBatteryModel() 
+		public function SunBatteryModel(data:XML) 
 		{
 			
 		}
-		
 	}
-
 }

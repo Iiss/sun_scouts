@@ -8,6 +8,7 @@ package ru.marstefo.sunscouts
 	import robotlegs.bender.framework.api.IInjector;
 	import ru.marstefo.sunscouts.commands.LoadAssetsCommand;
 	import ru.marstefo.sunscouts.models.LocaleModel;
+	import ru.marstefo.sunscouts.models.GameModel;
 	
 	public class AppConfig implements IConfig
 	{
@@ -35,6 +36,7 @@ package ru.marstefo.sunscouts
 		{
 			//MODELS
 			injector.map(LocaleModel).asSingleton();
+			injector.map(GameModel).asSingleton();
 			//injector.map(LogService).asSingleton();
 			//MEDIATORS
 			//mediatorMap.map(App).toMediator(AppMediator);

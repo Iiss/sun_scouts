@@ -7,6 +7,7 @@ package ru.marstefo.sunscouts.commands
 	import ru.marstefo.liss.network.FaultEvent;
 	import ru.marstefo.liss.network.DataLoaderDataFormat;
 	import br.com.stimuli.loading.BulkProgressEvent;
+	import ru.marstefo.sunscouts.models.GameModel;
 	import ru.marstefo.sunscouts.models.LocaleModel;
 	
 	public class LoadAssetsCommand extends Command 
@@ -19,6 +20,9 @@ package ru.marstefo.sunscouts.commands
 		
 		[Inject]
 		public var localeModel:LocaleModel;
+		
+		[Inject]
+		public var gameModel:GameModel;
 		
 		public function LoadAssetsCommand() 
 		{
@@ -40,6 +44,9 @@ package ru.marstefo.sunscouts.commands
 		private function _onResult(e:BulkProgressEvent):void
 		{ 
 			localeModel.configure(_dataLoader.getXML("locale", true));
+			gameModel.configure(_dataLoader.getXML("gamedata", true), 
+								_dataLoader.getBitmapData("map", true));
+			_dataLoader.clear();
 		}
 		
 		private function _onError(e:*):void

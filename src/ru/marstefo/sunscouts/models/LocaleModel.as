@@ -13,7 +13,6 @@ package ru.marstefo.sunscouts.models
 			{
 				_dict[p.name().toString()] = p.toString();
 			}
-			trace(_dict);
 		}
 		
 		public function getString(key:String):String
