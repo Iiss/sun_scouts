@@ -8,9 +8,9 @@
 		<cell x="18" y="16"/>
 	</cells>
 	<sun_scouts>
-		<scout id="1" x="20" y="10"/>
-		<scout id="2" x="20" y="10"/>
-		<scout id="3" x="20" y="10" is_mobile="1"/>
-		<scout id="4" x="20" y="10" is_mobile="1"/>
+		<scout id="1" x="20" y="10" enabled="1" opened="1" />
+		<scout id="2" x="20" y="10" enabled="1" opened="1" />
+		<scout id="3" x="20" y="10" can_move="1"/>
+		<scout id="4" x="20" y="10" can_move="1"/>
 	</sun_scouts>
 </config>
