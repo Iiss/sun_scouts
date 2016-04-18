@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
 	<map col_total="32" row_total="18">
-		<active_area x="5" y="5" w="10" h="10"/>
+		<active_area x="5" y="5" w="5" h="5"/>
 	</map> 
 	<cells>
 		<cell x="20" y="30"/>

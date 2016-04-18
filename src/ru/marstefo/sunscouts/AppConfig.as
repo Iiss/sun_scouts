@@ -9,6 +9,7 @@ package ru.marstefo.sunscouts
 	import ru.marstefo.sunscouts.commands.LoadAssetsCommand;
 	import ru.marstefo.sunscouts.models.LocaleModel;
 	import ru.marstefo.sunscouts.models.GameModel;
+	import ru.marstefo.sunscouts.mediators.AppMediator;
 	
 	public class AppConfig implements IConfig
 	{
@@ -39,7 +40,7 @@ package ru.marstefo.sunscouts
 			injector.map(GameModel).asSingleton();
 			//injector.map(LogService).asSingleton();
 			//MEDIATORS
-			//mediatorMap.map(App).toMediator(AppMediator);
+			mediatorMap.map(Main).toMediator(AppMediator);
 			//event
 			//eventCommandMap.map(SessionEvent.NEXT_SESSION, SessionEvent).toCommand(SetupSessionCommand);
 			//Commands

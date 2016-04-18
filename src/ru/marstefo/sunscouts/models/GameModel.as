@@ -2,9 +2,12 @@ package ru.marstefo.sunscouts.models
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.events.EventDispatcher;
+	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
+	import ru.marstefo.sunscouts.events.GameModelEvent;
 	
-	public class GameModel 
+	public class GameModel extends EventDispatcher
 	{
 		private var _colTotal:int;
 		private var _rowTotal:int;
@@ -39,19 +42,24 @@ package ru.marstefo.sunscouts.models
 			
 			var cell_w:int = mapImg.width / _colTotal;
 			var cell_h:int = mapImg.height / _rowTotal;
-			var clipRect:Rectangle = new Rectangle(cell_w * _activeMapArea.x,
-												   cell_h * _activeMapArea.y,
-												   cell_w * _activeMapArea.width,
-										           cell_h * _activeMapArea.height);
+			var dx:Number = cell_w * _activeMapArea.x;
+			var dy:Number = cell_h * _activeMapArea.y;
+			var clipRect:Rectangle = new Rectangle()
+			clipRect.width = cell_w * _activeMapArea.width;
+			clipRect.height = cell_h * _activeMapArea.height;
 			
-			_mapBitmapData = new BitmapData(clipRect.width,clipRect.height);
-			_mapBitmapData.draw(mapImg, null, null, null, clipRect);
+			_mapBitmapData = new BitmapData(mapImg.width, mapImg.height);//clipRect.width,clipRect.height);
+			_mapBitmapData.draw(mapImg,new Matrix(1,0,0,1,-dx,-dy), null, null, clipRect);
 			
 			_scouts = new Vector.<SunBatteryModel>();
 			for each (node in gamedata.sun_scouts.scout)
 			{
 				_scouts.push(new SunBatteryModel(node));
 			}
+			
+			dispatchEvent(new GameModelEvent(GameModelEvent.GAME_READY));
 		}
+		
+		public function get mapBitmapData():BitmapData { return _mapBitmapData };
 	}
 }

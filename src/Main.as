@@ -1,5 +1,6 @@
 package 
 {
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import ru.marstefo.sunscouts.views.ControlView;
@@ -12,6 +13,7 @@ package
 	public class Main extends Sprite 
 	{
 		protected var context:IContext;
+		public var map:Bitmap;
 		
 		public function Main():void 
 		{
@@ -28,7 +30,10 @@ package
 			.configure(new AppConfig())
 			.configure(new ContextView(this)));
 			
-			new ControlView(this,10,10,"Sun scout #1");
+			map = new Bitmap();
+			addChild(map);
+			
+			new ControlView(this,400,10,"Sun scout #1");
 		}
 		
 	}
