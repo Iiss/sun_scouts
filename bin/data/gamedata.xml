@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+	<map col_total="32" row_total="17"/>
+	<map_rect x="5" y="5" w="10" h="10"/>
+	<cells>
+		<cell x="20" y="30"/>
+		<cell x="18" y="16"/>
+	</cells>
+	<sun_scouts>
+		<scout id="1" x="20" y="10"/>
+		<scout id="2" x="20" y="10"/>
+		<scout id="3" x="20" y="10" is_mobile="1"/>
+		<scout id="4" x="20" y="10" is_mobile="1"/>
+	</sun_scouts>
+</config>
