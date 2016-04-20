@@ -26,6 +26,7 @@ package ru.marstefo.sunscouts.mediators
 		private function _onGameReady(e:*=null):void
 		{
 			view.map.bitmapData = gameModel.mapBitmapData;
+			view.redrawControls(gameModel.scouts);
 		}
 	}
 }

@@ -29,6 +29,7 @@ package ru.marstefo.sunscouts.models
 		
 		public function get powerOut():Number { return _powerOut; }
 		public function get angle():Number { return _angle; }
+		public function get id():int { return _id; }
 		public function get azimuth():int { return _azimuth; }
 		public function get canMove():Boolean { return _canMove; }
 		public function get x():int { return _x; }

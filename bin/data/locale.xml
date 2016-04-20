@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
 	<test><![CDATA[Тестирую словарь]]></test>
+	<power_output><![CDATA[Мощность]]></power_output>
+	<status_closed><![CDATA[]]></status_closed>
+	<btn_close><![CDATA[Закрыть]]></btn_close>
+	<btn_open><![CDATA[Открыть]]></btn_open>
+	<btn_move><![CDATA[Переместить]]></btn_move>
+	<angle><![CDATA[Угол]]></angle>
 </data>

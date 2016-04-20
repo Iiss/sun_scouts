@@ -9,6 +9,7 @@ package
 	import robotlegs.bender.extensions.contextView.ContextView;
 	import ru.marstefo.sunscouts.bundles.MVCSBundleNoTraceLog;
 	import ru.marstefo.sunscouts.AppConfig;
+	import ru.marstefo.sunscouts.models.SunBatteryModel;
 	
 	public class Main extends Sprite 
 	{
@@ -32,10 +33,26 @@ package
 			
 			map = new Bitmap();
 			addChild(map);
-			
-			new ControlView(this,400,10,"Sun scout #1");
 		}
 		
+		public function redrawControls(source:Vector.<SunBatteryModel>):void
+		{
+			for (var i:int = numChildren - 1; i >= 0; i--)
+			{
+				if (getChildAt(i) as ControlView) removeChildAt(i);
+			}
+			
+			var cv:ControlView;
+			var gap:int = 5;
+			var columns:int = 2;
+			
+			for (i = 0; i < source.length; i++)
+			{
+				cv = new ControlView(source[i]);
+				addChild(cv);
+				cv.x = (i % columns) * (cv.width + gap);
+				cv.y = Math.floor(i / columns) * (cv.height + gap);
+			}
+		}
 	}
-	
 }

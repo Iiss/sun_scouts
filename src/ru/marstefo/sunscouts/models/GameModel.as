@@ -48,7 +48,7 @@ package ru.marstefo.sunscouts.models
 			clipRect.width = cell_w * _activeMapArea.width;
 			clipRect.height = cell_h * _activeMapArea.height;
 			
-			_mapBitmapData = new BitmapData(mapImg.width, mapImg.height);//clipRect.width,clipRect.height);
+			_mapBitmapData = new BitmapData(mapImg.width, mapImg.height);
 			_mapBitmapData.draw(mapImg,new Matrix(1,0,0,1,-dx,-dy), null, null, clipRect);
 			
 			_scouts = new Vector.<SunBatteryModel>();
@@ -61,5 +61,6 @@ package ru.marstefo.sunscouts.models
 		}
 		
 		public function get mapBitmapData():BitmapData { return _mapBitmapData };
+		public function get scouts():Vector.<SunBatteryModel> { return _scouts };
 	}
 }
