@@ -1,11 +1,14 @@
 package ru.marstefo.sunscouts.views 
 {
 	import com.bit101.components.IndicatorLight;
+	import com.bit101.components.Knob;
 	import com.bit101.components.Label;
 	import com.bit101.components.Meter;
 	import com.bit101.components.NumericStepper;
+	import com.bit101.components.ProgressBar;
 	import com.bit101.components.PushButton;
 	import com.bit101.components.RadioButton;
+	import com.bit101.components.RotarySelector;
 	import com.bit101.components.Window;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
@@ -25,6 +28,8 @@ package ru.marstefo.sunscouts.views
 		private var _powerMeter:Meter;
 		protected var context:IContext;
 		private var _model:SunBatteryModel;
+		private var _statusLight:IndicatorLight;
+		private var _openButton:PushButton;
 		
 		public function ControlView(model:SunBatteryModel)
 		{
@@ -53,31 +58,59 @@ package ru.marstefo.sunscouts.views
 			var pref:String = _model.canMove ? "Мобильный комплекс #" : "Стационарный комплекс #"
 			title = pref + _model.id;
 			
-			width = 270;
-			height = 400;
+			width = 210;
+			height = 330;
 			_powerMeter = new Meter(this, 5, 5, "Вых. мощность")
 			_powerMeter.maximum = 100;
-			
-			new IndicatorLight(this, 15, 116, OFF_COLOR, "Открыты");
-			new PushButton(this, 105, 110, "Открыть");
-			new Label(this, 15, 135, "x:21 y:14");
-			new PushButton(this, 105, 135, "Переместить");
-			/*var _slider:VUISlider = new VUISlider(this, 210, 0, "a");
-			_slider.tick = 1;
-			_slider.labelPrecision = 0;
-			_slider.maximum = 90;
-			_slider.width = 30;
-			_slider.height = 200;
-			new Label(this, 15, 135, "Zenith angle");
-			var _stepper:NumericStepper = new NumericStepper(this, 125, 135);
-			_stepper.minimum = 0;
-			_stepper.maximum = 90;
+			_statusLight = new IndicatorLight(this, 15, 116);
+			_statusLight.isLit = true;
+			_openButton = new PushButton(this, 105, 110);
+			setOpened(_model.opened);
+			setPower(_model.powerOut);
+
 			
 			var azimuthArr:Array = ['N', 'E', 'S', 'W', 'NE', 'NW', 'SE', 'SW'];
-			for (var i:int = 0; i < azimuthArr.length/2; i++)
+			for (var i:int = 0; i < azimuthArr.length; i++)
 			{
-				new RadioButton(this, 5, 140 + i * 20, azimuthArr[i]);
-			}*/
+				new RadioButton(this, 15+(i%2)*36, 150 + Math.floor(i / 2) * 22, azimuthArr[i]);
+			}
+			
+			
+			
+			var _angleKnob:Knob = new Knob(this, 115, 128);
+			_angleKnob.labelPrecision = 0;
+			_angleKnob.radius = 40;
+			_angleKnob.maximum = 90;
+			
+			var _moveBtn:PushButton = new PushButton(this, 5, 275, 'Переместить');
+			_moveBtn.width = 200;
+			_moveBtn.height = 30;
+			
+			new Label(this, 10, 250, "Состояние");
+			var _durabilityBar:ProgressBar = new ProgressBar(this, 105, 255);
+			_durabilityBar.maximum = 100;
+			_durabilityBar.value = Math.random()*100;
+		}
+		
+		public function setOpened(value:Boolean):void
+		{
+			if (value)
+			{
+				_statusLight.color = ON_COLOR;
+				_statusLight.label = "Открыты";
+				_openButton.label = "Закрыть";
+			}
+			else
+			{
+				_statusLight.color = OFF_COLOR;
+				_statusLight.label = "Закрыты";
+				_openButton.label = "Открыть";
+			}
+		}
+		
+		public function setPower(value:Number):void
+		{
+			_powerMeter.value = value;
 		}
 	}
 }
