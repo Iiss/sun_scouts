@@ -1,13 +1,15 @@
 package ru.marstefo.sunscouts.views 
 {
+	import flash.events.Event;
 	import robotlegs.bender.extensions.contextView.ContextView;
 	import robotlegs.bender.extensions.directCommandMap.api.IDirectCommandMap;
 	import robotlegs.bender.extensions.eventCommandMap.api.IEventCommandMap;
 	import robotlegs.bender.extensions.mediatorMap.api.IMediatorMap;
 	import robotlegs.bender.framework.api.IConfig;
 	import robotlegs.bender.framework.api.IInjector;
-	import flash.events.Event;
 	import ru.marstefo.sunscouts.commands.LoadAssetsCommand;
+	import ru.marstefo.sunscouts.mediators.ControlViewMediator;
+	import ru.marstefo.sunscouts.views.ControlView;
 	import ru.marstefo.sunscouts.models.SunBatteryModel;
 	
 	public class ControlViewConfig implements IConfig
@@ -39,9 +41,9 @@ package ru.marstefo.sunscouts.views
 			//MODELS
 			injector.map(SunBatteryModel).toValue(_model);
 			//MEDIATORS
-			//mediatorMap.map(App).toMediator(AppMediator);
+			mediatorMap.map(ControlView).toMediator(ControlViewMediator);
 			//event
-			eventCommandMap.map(Event.CHANGE, Event).toCommand(LoadAssetsCommand);
+			//eventCommandMap.map(Event.CHANGE, Event).toCommand(LoadAssetsCommand);
 			//Commands
 			//directCommandMap.map(LoadAssetsCommand).execute();
 		}

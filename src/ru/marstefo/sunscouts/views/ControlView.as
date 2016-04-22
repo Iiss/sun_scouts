@@ -26,7 +26,7 @@ package ru.marstefo.sunscouts.views
 		private static const OFF_COLOR:uint = 0xff0000;
 		
 		private var _powerMeter:Meter;
-		protected var context:IContext;
+		private var context:Context;
 		private var _model:SunBatteryModel;
 		private var _statusLight:IndicatorLight;
 		private var _openButton:PushButton;
@@ -42,7 +42,7 @@ package ru.marstefo.sunscouts.views
 		
 		private function initialize(e:Event = null):void 
 		{
-			removeEventListener(Event.ADDED_TO_STAGE, init);
+			removeEventListener(Event.ADDED_TO_STAGE, initialize);
 			// entry point
 			context = Context(new Context()
 			.install(MVCSBundleNoTraceLog)
@@ -69,7 +69,7 @@ package ru.marstefo.sunscouts.views
 			setPower(_model.powerOut);
 
 			
-			var azimuthArr:Array = ['N', 'E', 'S', 'W', 'NE', 'NW', 'SE', 'SW'];
+			var azimuthArr:Array = ['C', 'Ю', 'З', 'В', 'СВ', 'ЮВ', 'СЗ', 'ЮЗ'];
 			for (var i:int = 0; i < azimuthArr.length; i++)
 			{
 				new RadioButton(this, 15+(i%2)*36, 150 + Math.floor(i / 2) * 22, azimuthArr[i]);

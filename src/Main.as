@@ -10,6 +10,7 @@ package
 	import ru.marstefo.sunscouts.bundles.MVCSBundleNoTraceLog;
 	import ru.marstefo.sunscouts.AppConfig;
 	import ru.marstefo.sunscouts.models.SunBatteryModel;
+	import flash.display.StageScaleMode;
 	
 	public class Main extends Sprite 
 	{
@@ -24,6 +25,7 @@ package
 		
 		private function init(e:Event = null):void 
 		{
+			stage.scaleMode = StageScaleMode.NO_SCALE;
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
 			context = Context(new Context()
