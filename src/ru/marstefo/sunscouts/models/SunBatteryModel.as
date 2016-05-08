@@ -1,6 +1,9 @@
 package ru.marstefo.sunscouts.models 
 {
-	public class SunBatteryModel 
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	
+	public class SunBatteryModel extends EventDispatcher
 	{
 		private var _id:int;
 		private var _powerOut:Number;
@@ -11,6 +14,9 @@ package ru.marstefo.sunscouts.models
 		private var _y:int;
 		private var _enabled:Boolean;
 		private var _opened:Boolean;
+		private var _sidesKpi:Vector.<int>;
+		private var _currentState:String;
+		private var _isBroken:Boolean;
 		
 		public function SunBatteryModel(scoutData:XML) 
 		{
@@ -25,6 +31,8 @@ package ru.marstefo.sunscouts.models
 			_powerOut = Math.floor(Math.random() * 100);
 			_angle = Math.floor(Math.random() * 90);
 			_azimuth = Math.floor(Math.random() * 8);
+			
+			_validateState();
 		}
 		
 		public function get powerOut():Number { return _powerOut; }
@@ -36,5 +44,63 @@ package ru.marstefo.sunscouts.models
 		public function get y():int { return _y; }
 		public function get enabled():Boolean { return _enabled; }
 		public function get opened():Boolean { return _opened; }
+		public function get isBroken():Boolean { return _isBroken; }
+		public function get currentState():String { return _currentState; }
+		
+		public function set enabled(value:Boolean):void
+		{
+			enabled = value;
+			_validateState();
+		}
+		
+		public function set opened(value:Boolean):void
+		{
+			opened = value;
+			_validateState();
+		}
+		
+		public function set azimuth(value:int):void
+		{
+			_azimuth = value;
+			_updatePower();
+		}
+		
+		public function set angle(value:Number):void
+		{
+			_angle = value;
+			_updatePower();
+		}
+		
+		public function set isBroken(value:Boolean):void
+		{
+			_isBroken = value;
+			_updatePower();
+		}
+		
+		private function _updatePower():void{}
+		
+		private function _validateState():void
+		{
+			var value:String = SunBatteryState.LOCKED;
+			if (enabled)
+			{
+				switch(true)
+				{
+					case isBroken: 
+						value = SunBatteryState.BROKEN;
+						break;
+		
+					default: 
+						value = opened ? SunBatteryState.OPEN : SunBatteryState.CLOSED;
+						break;
+				}
+			}
+			
+			if (_currentState != value)
+			{
+				_currentState = value;
+				//TODO: dispatch state changed event
+			}
+		}
 	}
 }
