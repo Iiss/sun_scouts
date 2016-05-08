@@ -1,7 +1,7 @@
 package ru.marstefo.sunscouts.models 
 {
-	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import ru.marstefo.sunscouts.events.ModelEvent;
 	
 	public class SunBatteryModel extends EventDispatcher
 	{
@@ -27,11 +27,6 @@ package ru.marstefo.sunscouts.models
 			_enabled = Boolean(parseInt(scoutData.@enabled));
 			_opened = Boolean(parseInt(scoutData.@opened));
 			
-			/// temp data ///
-			_powerOut = Math.floor(Math.random() * 100);
-			_angle = Math.floor(Math.random() * 90);
-			_azimuth = Math.floor(Math.random() * 8);
-			
 			_validateState();
 		}
 		
@@ -49,31 +44,31 @@ package ru.marstefo.sunscouts.models
 		
 		public function set enabled(value:Boolean):void
 		{
-			enabled = value;
+			_setProperty('enabled', value);
 			_validateState();
 		}
 		
 		public function set opened(value:Boolean):void
 		{
-			opened = value;
+			_setProperty('opened', value);
 			_validateState();
 		}
 		
 		public function set azimuth(value:int):void
 		{
-			_azimuth = value;
+			_setProperty('azimuth', value)
 			_updatePower();
 		}
 		
 		public function set angle(value:Number):void
 		{
-			_angle = value;
+			_setProperty('angle', value)
 			_updatePower();
 		}
 		
 		public function set isBroken(value:Boolean):void
 		{
-			_isBroken = value;
+			_setProperty('isBroken', value)
 			_updatePower();
 		}
 		
@@ -95,11 +90,18 @@ package ru.marstefo.sunscouts.models
 						break;
 				}
 			}
-			
-			if (_currentState != value)
+			_setProperty('currentState', value);
+		}
+		
+		private function _setProperty(propName:String, value:*):void
+		{
+			if (!this['_' + propName]) return;
+			if (this['_' + propName] != value)
 			{
-				_currentState = value;
-				//TODO: dispatch state changed event
+				this['_' + propName] = value;
+				var e:ModelEvent = new ModelEvent(ModelEvent.PROPERTY_CHANGED);
+				e.data = propName;
+				dispatchEvent(e);
 			}
 		}
 	}
