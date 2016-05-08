@@ -1,6 +1,5 @@
-package ru.marstefo.sunscouts.models 
+package ru.marstefo.sunscouts.models
 {
-	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.events.EventDispatcher;
 	import flash.geom.Matrix;
@@ -15,6 +14,7 @@ package ru.marstefo.sunscouts.models
 		private var _activeMapArea:Rectangle;
 		private var _mapBitmapData:BitmapData;
 		private var _scouts:Vector.<SunBatteryModel>
+		private var _sides:Array;
 		
 		public function configure(gamedata:XML, mapImg:BitmapData):void
 		{
@@ -23,6 +23,8 @@ package ru.marstefo.sunscouts.models
 			_rowTotal = parseInt(mapNode.@row_total);
 			_moveMask = new Vector.<Boolean>(_colTotal * _rowTotal, true);
 			
+			_sides = mapNode.@sides.toString().split(',');
+			var numSides:int = _sides.length;
 			var cell_x:int;
 			var cell_y:int;
 			
@@ -30,7 +32,18 @@ package ru.marstefo.sunscouts.models
 			{
 				cell_x = parseInt(node.@x);
 				cell_x = parseInt(node.@y);
-				_moveMask[cell_y * _colTotal + cell_x] = true;
+				
+				var kpiArr:Vector.<Number> = new Vector.<Number>(numSides, true);
+				if (node.@sides_kpi)
+				{
+					var kpiSrc:Array = node.@sides_kpi.toString().split(',');
+					for (var i:int = 0; i < Math.min(kpiSrc.length, numSides); i++)
+					{
+						kpiArr[i] = parseFloat(kpiSrc[i]);
+					}
+				}
+				
+				_moveMask[cell_y * _colTotal + cell_x] = kpiArr;
 			}
 			
 			var areaNode:XML = mapNode.active_area[0];
@@ -49,7 +62,7 @@ package ru.marstefo.sunscouts.models
 			clipRect.height = cell_h * _activeMapArea.height;
 			
 			_mapBitmapData = new BitmapData(mapImg.width, mapImg.height);
-			_mapBitmapData.draw(mapImg,new Matrix(1,0,0,1,-dx,-dy), null, null, clipRect);
+			_mapBitmapData.draw(mapImg, new Matrix(1, 0, 0, 1, -dx, -dy), null, null, clipRect);
 			
 			_scouts = new Vector.<SunBatteryModel>();
 			for each (node in gamedata.sun_scouts.scout)
@@ -60,7 +73,14 @@ package ru.marstefo.sunscouts.models
 			dispatchEvent(new GameModelEvent(GameModelEvent.GAME_READY));
 		}
 		
-		public function get mapBitmapData():BitmapData { return _mapBitmapData };
-		public function get scouts():Vector.<SunBatteryModel> { return _scouts };
+		public function get mapBitmapData():BitmapData
+		{
+			return _mapBitmapData
+		}
+		
+		public function get scouts():Vector.<SunBatteryModel>
+		{
+			return _scouts
+		}
 	}
 }

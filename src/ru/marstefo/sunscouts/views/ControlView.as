@@ -9,9 +9,12 @@ package ru.marstefo.sunscouts.views
 	import com.bit101.components.PushButton;
 	import com.bit101.components.RadioButton;
 	import com.bit101.components.RotarySelector;
+	import com.bit101.components.VBox;
 	import com.bit101.components.Window;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.text.TextFormat;
 	import robotlegs.bender.extensions.contextView.ContextView;
 	import robotlegs.bender.framework.api.IContext;
 	import robotlegs.bender.framework.impl.Context;
@@ -19,9 +22,15 @@ package ru.marstefo.sunscouts.views
 	import ru.marstefo.sunscouts.models.LocaleModel;
 	import ru.marstefo.sunscouts.models.SunBatteryModel;
 	import ru.marstefo.sunscouts.views.ControlViewConfig;
+	import ru.marstefo.sunscouts.views.ControlViewLockState;
 	
 	public class ControlView extends Window
 	{
+		private static const ERROR_STATE:String = "error";
+		private static const LOCK_STATE:String = "lock";
+		private static const OPERATION_STATE:String = "operation";
+		private static const MOVE_STATE:String = "move";
+		
 		private static const ON_COLOR:uint = 0x00ff00;
 		private static const OFF_COLOR:uint = 0xff0000;
 		
@@ -30,6 +39,11 @@ package ru.marstefo.sunscouts.views
 		private var _model:SunBatteryModel;
 		private var _statusLight:IndicatorLight;
 		private var _openButton:PushButton;
+		
+		private var _lockView:VBox;
+		private var _errorView:ControlViewErrorState;
+		private var _operateView:Sprite;
+		private var _moveView:VBox
 		
 		public function ControlView(model:SunBatteryModel)
 		{
@@ -60,6 +74,16 @@ package ru.marstefo.sunscouts.views
 			
 			width = 210;
 			height = 330;
+			
+			_errorView = new ControlViewErrorState(this);
+			_errorView.y = 60;
+			_errorView.message = "Неверный код доступа";
+			_errorView.visible = false;
+			
+			_lockView = new ControlViewLockState(this);
+			_lockView.y = 60;
+			_lockView.visible = false;
+			/*
 			_powerMeter = new Meter(this, 5, 5, "Вых. мощность")
 			_powerMeter.maximum = 100;
 			_statusLight = new IndicatorLight(this, 15, 116);
@@ -89,7 +113,7 @@ package ru.marstefo.sunscouts.views
 			new Label(this, 10, 250, "Состояние");
 			var _durabilityBar:ProgressBar = new ProgressBar(this, 105, 255);
 			_durabilityBar.maximum = 100;
-			_durabilityBar.value = Math.random()*100;
+			_durabilityBar.value = Math.random()*100;*/
 		}
 		
 		public function setOpened(value:Boolean):void
