@@ -10,6 +10,8 @@ package ru.marstefo.sunscouts
 	import ru.marstefo.sunscouts.models.LocaleModel;
 	import ru.marstefo.sunscouts.models.GameModel;
 	import ru.marstefo.sunscouts.mediators.AppMediator;
+	import ru.marstefo.sunscouts.services.CodeService;
+	import ru.marstefo.sunscouts.services.ICodeService;
 	
 	public class AppConfig implements IConfig
 	{
@@ -38,6 +40,7 @@ package ru.marstefo.sunscouts
 			//MODELS
 			injector.map(LocaleModel).asSingleton();
 			injector.map(GameModel).asSingleton();
+			injector.map(ICodeService).toValue(new CodeService());
 			//injector.map(LogService).asSingleton();
 			//MEDIATORS
 			mediatorMap.map(Main).toMediator(AppMediator);

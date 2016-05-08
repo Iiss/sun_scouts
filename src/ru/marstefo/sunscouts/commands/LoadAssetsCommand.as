@@ -9,9 +9,11 @@ package ru.marstefo.sunscouts.commands
 	import br.com.stimuli.loading.BulkProgressEvent;
 	import ru.marstefo.sunscouts.models.GameModel;
 	import ru.marstefo.sunscouts.models.LocaleModel;
+	import ru.marstefo.sunscouts.services.ICodeService;
 	
 	public class LoadAssetsCommand extends Command 
 	{
+		private static const CODE_BASE_URL:String = "data/codebase.xml";
 		private static const GAMEDATA_URL:String = "data/gamedata.xml";
 		private static const LOCALE_URL:String = "data/locale.xml";
 		private static const MAP_URL:String = "data/geo_map.jpg";
@@ -24,6 +26,9 @@ package ru.marstefo.sunscouts.commands
 		[Inject]
 		public var gameModel:GameModel;
 		
+		[Inject]
+		public var codeService:ICodeService;
+		
 		public function LoadAssetsCommand() 
 		{
 			_dataLoader = new BulkLoader("data_loader");
@@ -34,6 +39,7 @@ package ru.marstefo.sunscouts.commands
 			_dataLoader.add(GAMEDATA_URL, { id:"gamedata", type:BulkLoader.TYPE_XML } );
 			_dataLoader.add(LOCALE_URL, { id:"locale", type:BulkLoader.TYPE_XML } );
 			_dataLoader.add(MAP_URL, { id:"map", type:BulkLoader.TYPE_IMAGE } );
+			_dataLoader.add(CODE_BASE_URL, { id:"codebase", type:BulkLoader.TYPE_XML } );
 			_dataLoader.addEventListener(BulkProgressEvent.COMPLETE, _onResult);
 			_dataLoader.addEventListener(BulkLoader.ERROR, _onError);
 			
@@ -44,6 +50,7 @@ package ru.marstefo.sunscouts.commands
 		private function _onResult(e:BulkProgressEvent):void
 		{ 
 			localeModel.configure(_dataLoader.getXML("locale", true));
+			codeService.configure(_dataLoader.getXML("codebase", true));
 			gameModel.configure(_dataLoader.getXML("gamedata", true), 
 								_dataLoader.getBitmapData("map", true));
 			_dataLoader.clear();
