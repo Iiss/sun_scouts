@@ -10,6 +10,7 @@ package ru.marstefo.sunscouts.views
 	import ru.marstefo.sunscouts.models.SunBatteryModel;
 	import ru.marstefo.sunscouts.views.ControlViewConfig;
 	import ru.marstefo.sunscouts.views.ControlViewLockState;
+	import ru.marstefo.sunscouts.models.SunBatteryState;
 	
 	public class ControlView extends Window
 	{
@@ -75,6 +76,17 @@ package ru.marstefo.sunscouts.views
 			_brokenView = new ControlViewBrokenState();
 			_brokenView.visible = false;
 			addChild(_brokenView);
+			
+			setState(_model.currentState);
+		}
+		
+		public function setState(state:String):void
+		{
+			_lockView.visible = (state == SunBatteryState.LOCKED);
+			_moveView.visible = (state == SunBatteryState.MOVING);
+			_brokenView.visible = (state == SunBatteryState.BROKEN);
+			_operateView.visible = (state == SunBatteryState.OPEN || 
+									state == SunBatteryState.CLOSED);
 		}
 	}
 }
