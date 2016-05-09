@@ -95,7 +95,6 @@ package ru.marstefo.sunscouts.models
 		
 		private function _setProperty(propName:String, value:*):void
 		{
-			if (!this['_' + propName]) return;
 			if (this['_' + propName] != value)
 			{
 				this['_' + propName] = value;

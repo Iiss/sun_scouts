@@ -1,25 +1,12 @@
 package ru.marstefo.sunscouts.views 
 {
-	import com.bit101.components.IndicatorLight;
-	import com.bit101.components.Knob;
-	import com.bit101.components.Label;
-	import com.bit101.components.Meter;
-	import com.bit101.components.NumericStepper;
-	import com.bit101.components.ProgressBar;
-	import com.bit101.components.PushButton;
-	import com.bit101.components.RadioButton;
-	import com.bit101.components.RotarySelector;
 	import com.bit101.components.VBox;
 	import com.bit101.components.Window;
-	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.text.TextFormat;
 	import robotlegs.bender.extensions.contextView.ContextView;
-	import robotlegs.bender.framework.api.IContext;
 	import robotlegs.bender.framework.impl.Context;
 	import ru.marstefo.sunscouts.bundles.MVCSBundleNoTraceLog;
-	import ru.marstefo.sunscouts.models.LocaleModel;
 	import ru.marstefo.sunscouts.models.SunBatteryModel;
 	import ru.marstefo.sunscouts.views.ControlViewConfig;
 	import ru.marstefo.sunscouts.views.ControlViewLockState;
@@ -27,23 +14,14 @@ package ru.marstefo.sunscouts.views
 	public class ControlView extends Window
 	{
 		private static const ERROR_STATE:String = "error";
-		private static const LOCK_STATE:String = "lock";
-		private static const OPERATION_STATE:String = "operation";
-		private static const MOVE_STATE:String = "move";
-		
-		private static const ON_COLOR:uint = 0x00ff00;
-		private static const OFF_COLOR:uint = 0xff0000;
-		
-		private var _powerMeter:Meter;
+	
 		private var context:Context;
 		private var _model:SunBatteryModel;
-		private var _statusLight:IndicatorLight;
-		private var _openButton:PushButton;
-		
 		private var _lockView:VBox;
 		private var _errorView:ControlViewErrorState;
-		private var _operateView:Sprite;
-		private var _moveView:VBox
+		private var _operateView:ControlViewWorkingState;
+		private var _moveView:Sprite;
+		private var _brokenView:Sprite;
 		
 		public function ControlView(model:SunBatteryModel)
 		{
@@ -84,57 +62,19 @@ package ru.marstefo.sunscouts.views
 			_lockView.y = 60;
 			_lockView.visible = false;
 			
-			_powerMeter = new Meter(this, 5, 5, "Вых. мощность")
-			_powerMeter.maximum = 100;
-			_statusLight = new IndicatorLight(this, 15, 116);
-			_statusLight.isLit = true;
-			_openButton = new PushButton(this, 105, 110);
-			setOpened(_model.opened);
-			setPower(_model.powerOut);
-
+			_operateView = new ControlViewWorkingState();
+			_operateView.setPower(_model.powerOut);
+			_operateView.setOpened(_model.opened);
+			_operateView.visible = false;
+			addChild(_operateView);
 			
-			var azimuthArr:Array = ['C', 'Ю', 'З', 'В', 'СВ', 'ЮВ', 'СЗ', 'ЮЗ'];
-			for (var i:int = 0; i < azimuthArr.length; i++)
-			{
-				new RadioButton(this, 15+(i%2)*36, 150 + Math.floor(i / 2) * 22, azimuthArr[i]);
-			}
+			_moveView = new ControlViewMoveState();
+			_moveView.visible = false;
+			addChild(_moveView);
 			
-			
-			
-			var _angleKnob:Knob = new Knob(this, 115, 128);
-			_angleKnob.labelPrecision = 0;
-			_angleKnob.radius = 40;
-			_angleKnob.maximum = 90;
-			
-			var _moveBtn:PushButton = new PushButton(this, 5, 275, 'Переместить');
-			_moveBtn.width = 200;
-			_moveBtn.height = 30;
-			
-			new Label(this, 10, 250, "Состояние");
-			var _durabilityBar:ProgressBar = new ProgressBar(this, 105, 255);
-			_durabilityBar.maximum = 100;
-			_durabilityBar.value = Math.random()*100;
-		}
-		
-		public function setOpened(value:Boolean):void
-		{
-			if (value)
-			{
-				_statusLight.color = ON_COLOR;
-				_statusLight.label = "Открыты";
-				_openButton.label = "Закрыть";
-			}
-			else
-			{
-				_statusLight.color = OFF_COLOR;
-				_statusLight.label = "Закрыты";
-				_openButton.label = "Открыть";
-			}
-		}
-		
-		public function setPower(value:Number):void
-		{
-			_powerMeter.value = value;
+			_brokenView = new ControlViewBrokenState();
+			_brokenView.visible = false;
+			addChild(_brokenView);
 		}
 	}
 }
