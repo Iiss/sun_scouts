@@ -83,7 +83,7 @@ package ru.marstefo.sunscouts.views
 			_lockView = new ControlViewLockState(this);
 			_lockView.y = 60;
 			_lockView.visible = false;
-			/*
+			
 			_powerMeter = new Meter(this, 5, 5, "Вых. мощность")
 			_powerMeter.maximum = 100;
 			_statusLight = new IndicatorLight(this, 15, 116);
@@ -113,7 +113,7 @@ package ru.marstefo.sunscouts.views
 			new Label(this, 10, 250, "Состояние");
 			var _durabilityBar:ProgressBar = new ProgressBar(this, 105, 255);
 			_durabilityBar.maximum = 100;
-			_durabilityBar.value = Math.random()*100;*/
+			_durabilityBar.value = Math.random()*100;
 		}
 		
 		public function setOpened(value:Boolean):void
