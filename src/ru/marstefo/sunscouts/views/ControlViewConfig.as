@@ -11,6 +11,9 @@ package ru.marstefo.sunscouts.views
 	import ru.marstefo.sunscouts.mediators.ControlViewMediator;
 	import ru.marstefo.sunscouts.views.ControlView;
 	import ru.marstefo.sunscouts.models.SunBatteryModel;
+	import ru.marstefo.sunscouts.events.SunBatteryCommandEvent;
+	import ru.marstefo.sunscouts.commands.OpenBatteryCommand;
+	import ru.marstefo.sunscouts.commands.CloseBatteryCommand;
 	
 	public class ControlViewConfig implements IConfig
 	{
@@ -43,7 +46,8 @@ package ru.marstefo.sunscouts.views
 			//MEDIATORS
 			mediatorMap.map(ControlView).toMediator(ControlViewMediator);
 			//event
-			//eventCommandMap.map(Event.CHANGE, Event).toCommand(LoadAssetsCommand);
+			eventCommandMap.map(SunBatteryCommandEvent.OPEN).toCommand(OpenBatteryCommand);
+			eventCommandMap.map(SunBatteryCommandEvent.CLOSE).toCommand(CloseBatteryCommand);
 			//Commands
 			//directCommandMap.map(LoadAssetsCommand).execute();
 		}

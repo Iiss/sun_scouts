@@ -11,6 +11,7 @@ package
 	import ru.marstefo.sunscouts.AppConfig;
 	import ru.marstefo.sunscouts.models.SunBatteryModel;
 	import flash.display.StageScaleMode;
+	import flash.display.StageAlign;
 	
 	public class Main extends Sprite 
 	{
@@ -25,6 +26,7 @@ package
 		
 		private function init(e:Event = null):void 
 		{
+			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point

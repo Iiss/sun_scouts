@@ -20,7 +20,7 @@ package ru.marstefo.sunscouts.views
 		private var _model:SunBatteryModel;
 		private var _lockView:VBox;
 		private var _errorView:ControlViewErrorState;
-		private var _operateView:ControlViewWorkingState;
+		public var operateView:ControlViewWorkingState;
 		private var _moveView:Sprite;
 		private var _brokenView:Sprite;
 		
@@ -36,13 +36,14 @@ package ru.marstefo.sunscouts.views
 		private function initialize(e:Event = null):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, initialize);
+			_buildUI();
+			
 			// entry point
 			context = Context(new Context()
 			.install(MVCSBundleNoTraceLog)
 			.configure(new ControlViewConfig(_model))
 			.configure(new ContextView(this)));
 			
-			_buildUI();
 			_model = null;
 		}
 		
@@ -63,11 +64,11 @@ package ru.marstefo.sunscouts.views
 			_lockView.y = 60;
 			_lockView.visible = false;
 			
-			_operateView = new ControlViewWorkingState();
-			_operateView.setPower(_model.powerOut);
-			_operateView.setOpened(_model.opened);
-			_operateView.visible = false;
-			addChild(_operateView);
+			operateView = new ControlViewWorkingState(_model.canMove);
+			operateView.opened = _model.opened;
+			operateView.power = _model.powerOut;
+			operateView.visible = false;
+			addChild(operateView);
 			
 			_moveView = new ControlViewMoveState();
 			_moveView.visible = false;
@@ -85,8 +86,9 @@ package ru.marstefo.sunscouts.views
 			_lockView.visible = (state == SunBatteryState.LOCKED);
 			_moveView.visible = (state == SunBatteryState.MOVING);
 			_brokenView.visible = (state == SunBatteryState.BROKEN);
-			_operateView.visible = (state == SunBatteryState.OPEN || 
+			operateView.visible = (state == SunBatteryState.OPEN || 
 									state == SunBatteryState.CLOSED);
+			operateView.opened = (state == SunBatteryState.OPEN);
 		}
 	}
 }

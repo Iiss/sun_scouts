@@ -14,15 +14,17 @@ package ru.marstefo.sunscouts.views
 		
 		private var _powerMeter:Meter;
 		private var _statusLight:IndicatorLight;
-		private var _openButton:PushButton;
+		public var openButton:PushButton;
+		public var angleKnob:Knob;
+		public var moveButton:PushButton;
 		
-		public function ControlViewWorkingState()
+		public function ControlViewWorkingState(isMobile:Boolean=false)
 		{
 			_powerMeter = new Meter(this, 5, 5, "Вых. мощность")
 			_powerMeter.maximum = 100;
 			_statusLight = new IndicatorLight(this, 15, 116);
 			_statusLight.isLit = true;
-			_openButton = new PushButton(this, 105, 110);
+			openButton = new PushButton(this, 105, 110);
 			
 			var azimuthArr:Array = ['C', 'Ю', 'З', 'В', 'СВ', 'ЮВ', 'СЗ', 'ЮЗ'];
 			for (var i:int = 0; i < azimuthArr.length; i++)
@@ -30,33 +32,46 @@ package ru.marstefo.sunscouts.views
 				new RadioButton(this, 15 + (i % 2) * 36, 150 + Math.floor(i / 2) * 22, azimuthArr[i]);
 			}
 			
-			var _angleKnob:Knob = new Knob(this, 115, 128);
-			_angleKnob.labelPrecision = 0;
-			_angleKnob.radius = 40;
-			_angleKnob.maximum = 90;
+			angleKnob = new Knob(this, 115, 128);
+			angleKnob.labelPrecision = 0;
+			angleKnob.radius = 40;
+			angleKnob.maximum = 90;
 			
-			var _moveBtn:PushButton = new PushButton(this, 5, 275, 'Переместить');
-			_moveBtn.width = 200;
-			_moveBtn.height = 30;
+			if (isMobile)
+			{
+				moveButton = new PushButton(this, 5, 275, 'Переместить');
+				moveButton.width = 200;
+				moveButton.height = 30;
+			}
 		}
 		
-		public function setOpened(value:Boolean):void
+		public function get opened():Boolean
+		{
+			return _statusLight.color == ON_COLOR;
+		}
+		
+		public function set opened(value:Boolean):void
 		{
 			if (value)
 			{
 				_statusLight.color = ON_COLOR;
 				_statusLight.label = "Открыты";
-				_openButton.label = "Закрыть";
+				openButton.label = "Закрыть";
 			}
 			else
 			{
 				_statusLight.color = OFF_COLOR;
 				_statusLight.label = "Закрыты";
-				_openButton.label = "Открыть";
+				openButton.label = "Открыть";
 			}
 		}
 		
-		public function setPower(value:Number):void
+		public function get power():Number
+		{
+			return _powerMeter.value;
+		}
+		
+		public function set power(value:Number):void
 		{
 			_powerMeter.value = value;
 		}
