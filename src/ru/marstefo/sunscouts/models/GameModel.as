@@ -10,7 +10,7 @@ package ru.marstefo.sunscouts.models
 	{
 		private var _colTotal:int;
 		private var _rowTotal:int;
-		private var _moveMask:Vector.<Boolean>;
+		private var _moveMask:Vector.<CellModel>;
 		private var _activeMapArea:Rectangle;
 		private var _mapBitmapData:BitmapData;
 		private var _scouts:Vector.<SunBatteryModel>
@@ -21,29 +21,32 @@ package ru.marstefo.sunscouts.models
 			var mapNode:XML = gamedata.map[0]
 			_colTotal = parseInt(mapNode.@col_total);
 			_rowTotal = parseInt(mapNode.@row_total);
-			_moveMask = new Vector.<Boolean>(_colTotal * _rowTotal, true);
+			_moveMask = new Vector.<CellModel>(_colTotal * _rowTotal, true);
 			
 			_sides = mapNode.@sides.toString().split(',');
 			var numSides:int = _sides.length;
 			var cell_x:int;
 			var cell_y:int;
 			
+			var cell:CellModel;
+			
 			for each (var node:XML in gamedata.cells.cell)
 			{
+				cell = new CellModel();
 				cell_x = parseInt(node.@x);
-				cell_x = parseInt(node.@y);
+				cell_y = parseInt(node.@y);
+				cell.sidesKpi = new Vector.<Number>(numSides, true);
+				cell.penalty = parseFloat(node.@penalty.toString());
 				
-				var kpiArr:Vector.<Number> = new Vector.<Number>(numSides, true);
 				if (node.@sides_kpi)
 				{
 					var kpiSrc:Array = node.@sides_kpi.toString().split(',');
 					for (var i:int = 0; i < Math.min(kpiSrc.length, numSides); i++)
 					{
-						kpiArr[i] = parseFloat(kpiSrc[i]);
+						cell.sidesKpi[i] = parseFloat(kpiSrc[i]);
 					}
 				}
-				
-				_moveMask[cell_y * _colTotal + cell_x] = kpiArr;
+				_moveMask[cell_y * _colTotal + cell_x] = cell;
 			}
 			
 			var areaNode:XML = mapNode.active_area[0];
@@ -65,11 +68,18 @@ package ru.marstefo.sunscouts.models
 			_mapBitmapData.draw(mapImg, new Matrix(1, 0, 0, 1, -dx, -dy), null, null, clipRect);
 			
 			_scouts = new Vector.<SunBatteryModel>();
+			var scout:SunBatteryModel
+			var pos:int;
 			for each (node in gamedata.sun_scouts.scout)
 			{
-				_scouts.push(new SunBatteryModel(node));
+				scout = new SunBatteryModel(node);
+				pos = scout.y * _colTotal + scout.x;
+				if (pos<_moveMask.length)
+				{
+					scout.cell = _moveMask[pos];
+				}	
+				_scouts.push(scout);
 			}
-			
 			dispatchEvent(new GameModelEvent(GameModelEvent.GAME_READY));
 		}
 		

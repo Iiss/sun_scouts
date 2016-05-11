@@ -5,6 +5,7 @@ package ru.marstefo.sunscouts.models
 	
 	public class SunBatteryModel extends EventDispatcher
 	{
+		public static const MAX_POWER:Number = 100;
 		private static const PURE_ZENITH_ANGLE:Number = 67;
 		private var _id:int;
 		private var _powerOut:Number;
@@ -18,6 +19,7 @@ package ru.marstefo.sunscouts.models
 		private var _sidesKpi:Vector.<int>;
 		private var _currentState:String;
 		private var _isBroken:Boolean;
+		public var cell:CellModel;
 		
 		public function SunBatteryModel(scoutData:XML) 
 		{
@@ -81,10 +83,13 @@ package ru.marstefo.sunscouts.models
 				var radians:Number = angle * Math.PI/180
 				var angleKpi:Number = Math.sin(radians * 90 / PURE_ZENITH_ANGLE);
 				if (angleKpi < 0) angleKpi = 0;
-				var azimuthKpi:Number = 1;
-				power = 100 * angleKpi;
+				var azimuthKpi:Number = 0;
+				if (cell)
+				{
+					azimuthKpi = cell.sidesKpi[azimuth] * (1-cell.penalty);
+				}
+				power = MAX_POWER * angleKpi * azimuthKpi;
 			}
-			
 			_setProperty("powerOut",power);
 		}
 		

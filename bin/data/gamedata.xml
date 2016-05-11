@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
-	<map col_total="32" row_total="18" sides="C,Ю,З,В,СВ,ЮВ,СЗ,ЮЗ">
+	<map col_total="50" row_total="18" sides="C,Ю,З,В,СВ,ЮВ,СЗ,ЮЗ">
 		<active_area x="5" y="5" w="5" h="5"/>
 	</map> 
 	<cells><!-- TODO добвавить пенальти от погоды не более одного комплекса в один квадрат-->
-		<cell x="38" y="5" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/><!-- sandstorm penalty 50%-->
-		<cell x="37" y="5" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/><!-- sandstorm penalty 50%-->
-		<cell x="37" y="4" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/><!-- sandstorm penalty 50%-->
-		<cell x="37" y="3" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/><!-- sandstorm penalty 50%-->
-		<cell x="36" y="3" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/><!-- sandstorm penalty 50%-->
-		
+		<cell x="38" y="5" sides_kpi="0,1,0,.5,.5,.5,.5,.5" penalty=".5"/>
+		<cell x="37" y="5" sides_kpi="0,1,0,.5,.5,.5,.5,.5" penalty=".5"/>
+		<cell x="37" y="4" sides_kpi="0,1,0,.5,.5,.5,.5,.5" penalty=".5"/>
+		<cell x="37" y="3" sides_kpi="0,1,0,.5,.5,.5,.5,.5" penalty=".5"/>
+		<cell x="36" y="3" sides_kpi="0,1,0,.5,.5,.5,.5,.5" penalty=".5"/>
 		<cell x="38" y="7" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/>
 		<cell x="38" y="9" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/>
 		<cell x="37" y="11" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/>
 		<cell x="39" y="11" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/>
 		<cell x="37" y="9" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/>
+		
+		<cell x="38" y="10" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/>
+		<cell x="36" y="5" sides_kpi=".5,1,0,.5,.5,.5,.5,.5"/>
 		
 		
 	</cells>

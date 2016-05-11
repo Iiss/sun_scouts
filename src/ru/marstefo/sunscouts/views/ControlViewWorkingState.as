@@ -17,8 +17,10 @@ package ru.marstefo.sunscouts.views
 		public var openButton:PushButton;
 		public var angleKnob:Knob;
 		public var moveButton:PushButton;
+		private var _curAzimuth:int;
+		private var _azimuthRBtnList:Vector.<RadioButton>;
 		
-		public function ControlViewWorkingState(isMobile:Boolean=false)
+		public function ControlViewWorkingState(isMobile:Boolean = false)
 		{
 			_powerMeter = new Meter(this, 5, 5, "Вых. мощность")
 			_powerMeter.maximum = 100;
@@ -26,10 +28,17 @@ package ru.marstefo.sunscouts.views
 			_statusLight.isLit = true;
 			openButton = new PushButton(this, 105, 110);
 			
+			var rb:RadioButton;
 			var azimuthArr:Array = ['C', 'Ю', 'З', 'В', 'СВ', 'ЮВ', 'СЗ', 'ЮЗ'];
+			var groupName:String = "scout" + (new Date().getTime().toString());
+			_azimuthRBtnList = new Vector.<RadioButton>();
+			
+			trace(groupName);
 			for (var i:int = 0; i < azimuthArr.length; i++)
 			{
-				new RadioButton(this, 15 + (i % 2) * 36, 150 + Math.floor(i / 2) * 22, azimuthArr[i]);
+				rb = new RadioButton(this, 15 + (i % 2) * 36, 150 + Math.floor(i / 2) * 22, azimuthArr[i]);
+				rb.groupName = groupName;
+				_azimuthRBtnList.push(rb);
 			}
 			
 			angleKnob = new Knob(this, 115, 128);
@@ -43,6 +52,8 @@ package ru.marstefo.sunscouts.views
 				moveButton.width = 200;
 				moveButton.height = 30;
 			}
+			
+			_validateAzimuth();
 		}
 		
 		public function get opened():Boolean
@@ -74,6 +85,34 @@ package ru.marstefo.sunscouts.views
 		public function set power(value:Number):void
 		{
 			_powerMeter.value = value;
+		}
+		
+		public function get azimuth():int
+		{
+			for (var i:int = 0; i < _azimuthRBtnList.length; i++)
+			{
+				if (_azimuthRBtnList[i].selected)
+					return i;
+			}
+			
+			return NaN;
+		}
+		
+		public function set azimuth(value:int):void
+		{
+			if (_curAzimuth != value)
+			{
+				_curAzimuth = value;
+				_validateAzimuth();
+			}
+		}
+		
+		private function _validateAzimuth():void
+		{
+			for (var i:int = 0; i < _azimuthRBtnList.length; i++)
+			{
+				_azimuthRBtnList[i].selected = (i == _curAzimuth);
+			}
 		}
 	}
 }

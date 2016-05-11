@@ -1,13 +1,14 @@
-package ru.marstefo.sunscouts.mediators 
+package ru.marstefo.sunscouts.mediators
 {
+	import com.bit101.components.RadioButton;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import robotlegs.bender.bundles.mvcs.Mediator;
+	import ru.marstefo.sunscouts.events.ModelEvent;
 	import ru.marstefo.sunscouts.events.SunBatteryCommandEvent;
 	import ru.marstefo.sunscouts.models.LocaleModel;
 	import ru.marstefo.sunscouts.models.SunBatteryModel;
 	import ru.marstefo.sunscouts.views.ControlView;
-	import ru.marstefo.sunscouts.events.ModelEvent;
-	import flash.events.MouseEvent;
-	import flash.events.Event;
 	
 	public class ControlViewMediator extends Mediator
 	{
@@ -20,28 +21,30 @@ package ru.marstefo.sunscouts.mediators
 		[Inject]
 		public var locale:LocaleModel;
 		
-		public function ControlViewMediator() 
+		public function ControlViewMediator()
 		{
 			super();
 		}
 		
-		override public function initialize():void 
+		override public function initialize():void
 		{
 			super.initialize();
 			eventMap.mapListener(model, ModelEvent.PROPERTY_CHANGED, _onModelPropChanged);
 			eventMap.mapListener(view.operateView.openButton, MouseEvent.MOUSE_DOWN, _onCloseButtonClick);
 			eventMap.mapListener(view.operateView.angleKnob, Event.CHANGE, _onAngleKnob);
+			eventMap.mapListener(view.operateView, MouseEvent.CLICK, _onOperateViewClick);
 			view.setState(model.currentState);
+			view.operateView.azimuth = model.azimuth;
 		}
 		
 		private function _onModelPropChanged(e:ModelEvent):void
 		{
-			switch(e.data.toString())
+			switch (e.data.toString())
 			{
-				case "powerOut":
+				case "powerOut": 
 					view.operateView.power = model.powerOut;
 					break;
-				case "currentState":
+				case "currentState": 
 					view.setState(model.currentState);
 					break;
 			}
@@ -50,15 +53,28 @@ package ru.marstefo.sunscouts.mediators
 		private function _onCloseButtonClick(e:MouseEvent):void
 		{
 			var type:String = model.opened ? SunBatteryCommandEvent.CLOSE : SunBatteryCommandEvent.OPEN;
-			dispatch(new SunBatteryCommandEvent(type));
+			_dispatchCommandEvent(type);
 		}
 		
 		private function _onAngleKnob(e:Event):void
 		{
-			var evt:SunBatteryCommandEvent = new SunBatteryCommandEvent(SunBatteryCommandEvent.CHANGE_ANGLE);
-			evt.data = view.operateView.angleKnob.value;
+			_dispatchCommandEvent(SunBatteryCommandEvent.CHANGE_ANGLE, view.operateView.angleKnob.value);
+		}
+		
+		private function _onOperateViewClick(e:MouseEvent):void
+		{
+			var rb:RadioButton = e.target as RadioButton;
+			if (rb)
+			{
+				_dispatchCommandEvent(SunBatteryCommandEvent.CHANGE_AZIMUTH, view.operateView.azimuth);
+			}
+		}
+		
+		private function _dispatchCommandEvent(type:String, data:* = null):void
+		{
+			var evt:SunBatteryCommandEvent = new SunBatteryCommandEvent(type);
+			evt.data = data;
 			dispatch(evt);
 		}
 	}
-
 }
