@@ -36,7 +36,7 @@ package ru.marstefo.sunscouts.models
 				cell_x = parseInt(node.@x);
 				cell_y = parseInt(node.@y);
 				cell.sidesKpi = new Vector.<Number>(numSides, true);
-				cell.penalty = parseFloat(node.@penalty.toString());
+				cell.penalty = parseFloat(node.@penalty);
 				
 				if (node.@sides_kpi)
 				{

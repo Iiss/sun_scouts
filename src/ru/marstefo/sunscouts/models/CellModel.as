@@ -8,7 +8,7 @@ package ru.marstefo.sunscouts.models
 		public function get penalty():Number { return _penalty }
 		public function set penalty(value:Number):void
 		{
-			if (isNaN(value)) value = 0;
+			_penalty = isNaN(value) ? 0 : value;
 		}
 	}
 }
