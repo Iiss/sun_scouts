@@ -14,6 +14,7 @@ package ru.marstefo.sunscouts.views
 	import ru.marstefo.sunscouts.events.SunBatteryCommandEvent;
 	import ru.marstefo.sunscouts.commands.OpenBatteryCommand;
 	import ru.marstefo.sunscouts.commands.CloseBatteryCommand;
+	import ru.marstefo.sunscouts.commands.ChangeBatteryAngleComand;
 	
 	public class ControlViewConfig implements IConfig
 	{
@@ -48,6 +49,7 @@ package ru.marstefo.sunscouts.views
 			//event
 			eventCommandMap.map(SunBatteryCommandEvent.OPEN).toCommand(OpenBatteryCommand);
 			eventCommandMap.map(SunBatteryCommandEvent.CLOSE).toCommand(CloseBatteryCommand);
+			eventCommandMap.map(SunBatteryCommandEvent.CHANGE_ANGLE).toCommand(ChangeBatteryAngleComand);
 			//Commands
 			//directCommandMap.map(LoadAssetsCommand).execute();
 		}

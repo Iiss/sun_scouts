@@ -5,6 +5,7 @@ package ru.marstefo.sunscouts.models
 	
 	public class SunBatteryModel extends EventDispatcher
 	{
+		private static const PURE_ZENITH_ANGLE:Number = 67;
 		private var _id:int;
 		private var _powerOut:Number;
 		private var _angle:Number;
@@ -26,7 +27,7 @@ package ru.marstefo.sunscouts.models
 			_canMove = Boolean(parseInt(scoutData.@can_move));
 			_enabled = Boolean(parseInt(scoutData.@enabled));
 			_opened = Boolean(parseInt(scoutData.@opened));
-			
+			_angle = 0;
 			_validateState();
 		}
 		
@@ -72,7 +73,20 @@ package ru.marstefo.sunscouts.models
 			_updatePower();
 		}
 		
-		private function _updatePower():void{}
+		private function _updatePower():void
+		{
+			var power:Number = 0;
+			if (currentState == SunBatteryState.OPEN)
+			{
+				var radians:Number = angle * Math.PI/180
+				var angleKpi:Number = Math.sin(radians * 90 / PURE_ZENITH_ANGLE);
+				if (angleKpi < 0) angleKpi = 0;
+				var azimuthKpi:Number = 1;
+				power = 100 * angleKpi;
+			}
+			
+			_setProperty("powerOut",power);
+		}
 		
 		private function _validateState():void
 		{
@@ -91,6 +105,7 @@ package ru.marstefo.sunscouts.models
 				}
 			}
 			_setProperty('currentState', value);
+			_updatePower();
 		}
 		
 		private function _setProperty(propName:String, value:*):void

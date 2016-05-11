@@ -7,6 +7,7 @@ package ru.marstefo.sunscouts.mediators
 	import ru.marstefo.sunscouts.views.ControlView;
 	import ru.marstefo.sunscouts.events.ModelEvent;
 	import flash.events.MouseEvent;
+	import flash.events.Event;
 	
 	public class ControlViewMediator extends Mediator
 	{
@@ -29,6 +30,7 @@ package ru.marstefo.sunscouts.mediators
 			super.initialize();
 			eventMap.mapListener(model, ModelEvent.PROPERTY_CHANGED, _onModelPropChanged);
 			eventMap.mapListener(view.operateView.openButton, MouseEvent.MOUSE_DOWN, _onCloseButtonClick);
+			eventMap.mapListener(view.operateView.angleKnob, Event.CHANGE, _onAngleKnob);
 			view.setState(model.currentState);
 		}
 		
@@ -37,6 +39,7 @@ package ru.marstefo.sunscouts.mediators
 			switch(e.data.toString())
 			{
 				case "powerOut":
+					view.operateView.power = model.powerOut;
 					break;
 				case "currentState":
 					view.setState(model.currentState);
@@ -48,6 +51,13 @@ package ru.marstefo.sunscouts.mediators
 		{
 			var type:String = model.opened ? SunBatteryCommandEvent.CLOSE : SunBatteryCommandEvent.OPEN;
 			dispatch(new SunBatteryCommandEvent(type));
+		}
+		
+		private function _onAngleKnob(e:Event):void
+		{
+			var evt:SunBatteryCommandEvent = new SunBatteryCommandEvent(SunBatteryCommandEvent.CHANGE_ANGLE);
+			evt.data = view.operateView.angleKnob.value;
+			dispatch(evt);
 		}
 	}
 

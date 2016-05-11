@@ -18,7 +18,7 @@ package ru.marstefo.sunscouts.commands
 		}
 		
 		override public function execute():void
-		{
+		{	
 			scoutModel.angle = cmdEvent.data;
 			super.execute();
 		}
