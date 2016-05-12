@@ -92,6 +92,8 @@ package ru.marstefo.sunscouts.views
 			addChild(_moveView);
 			
 			_brokenView = new ControlViewBrokenState();
+			_brokenView.x = .5 * (width - _brokenView.width);
+			_brokenView.y = .5 * (height - _brokenView.height) - 19;
 			_brokenView.visible = false;
 			addChild(_brokenView);
 			
