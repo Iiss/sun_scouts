@@ -73,8 +73,12 @@ package ru.marstefo.sunscouts.views
 			_errorView.visible = false;
 			_errorView.addEventListener(PopUpEvent.CANCEL, _onClosePopUp);
 			
-			_lockView = new ControlViewLockState(this);
+			_lockView = new ControlViewLockState();
 			_lockView.visible = false;
+			addChild(_lockView);
+			
+			_lockView.x = .5 * (width - _lockView.width);
+			_lockView.y = .5 * (height - _lockView.height) - 20;
 			_lockView.unlockBtn.addEventListener(MouseEvent.MOUSE_DOWN, _requestUnlock);
 			
 			operateView = new ControlViewWorkingState(_model.canMove);
