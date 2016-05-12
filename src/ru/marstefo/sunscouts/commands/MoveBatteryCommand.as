@@ -26,7 +26,7 @@ package ru.marstefo.sunscouts.commands
 			if (cell)
 			{
 				scout.opened = false;
-				scout.cell = cell;
+				scout.currentCell = cell;
 			}
 			else
 			{

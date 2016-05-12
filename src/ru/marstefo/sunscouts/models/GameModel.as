@@ -39,6 +39,7 @@ package ru.marstefo.sunscouts.models
 				cell = new CellModel(cell_x,cell_y);
 				cell.sidesKpi = new Vector.<Number>(numSides, true);
 				cell.penalty = parseFloat(node.@penalty);
+				cell.storm = Boolean(parseInt(node.@storm));
 				
 				if (node.@sides_kpi)
 				{
@@ -78,7 +79,7 @@ package ru.marstefo.sunscouts.models
 				pos = scout.y * _colTotal + scout.x;
 				if (pos<_moveMask.length)
 				{
-					scout.cell = _moveMask[pos];
+					scout.currentCell = _moveMask[pos];
 				}	
 				_scouts.push(scout);
 			}

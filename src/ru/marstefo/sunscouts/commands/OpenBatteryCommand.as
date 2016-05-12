@@ -15,7 +15,14 @@ package ru.marstefo.sunscouts.commands
 		
 		override public function execute():void
 		{
-			scout.opened = true;
+			if (scout.currentCell && scout.currentCell.storm)
+			{
+				scout.isBroken = true;
+			}
+			else
+			{
+				scout.opened = true;
+			}
 			super.execute();
 		}
 	}

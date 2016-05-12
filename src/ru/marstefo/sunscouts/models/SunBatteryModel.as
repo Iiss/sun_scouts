@@ -46,6 +46,11 @@ package ru.marstefo.sunscouts.models
 		public function get currentState():String { return _currentState; }
 		public function get currentCell():CellModel { return _currentCell; }
 		
+		public function set currentCell(value:CellModel):void
+		{
+			_setProperty('currentCell', value);
+		}
+		
 		public function set enabled(value:Boolean):void
 		{
 			_setProperty('enabled', value);
@@ -73,6 +78,7 @@ package ru.marstefo.sunscouts.models
 		public function set isBroken(value:Boolean):void
 		{
 			_setProperty('isBroken', value)
+			_validateState();
 			_updatePower();
 		}
 		
@@ -85,9 +91,9 @@ package ru.marstefo.sunscouts.models
 				var angleKpi:Number = Math.sin(radians * 90 / PURE_ZENITH_ANGLE);
 				if (angleKpi < 0) angleKpi = 0;
 				var azimuthKpi:Number = 0;
-				if (cell)
+				if (currentCell)
 				{
-					azimuthKpi = cell.sidesKpi[azimuth] * (1-cell.penalty);
+					azimuthKpi = currentCell.sidesKpi[azimuth] * (1-currentCell.penalty);
 				}
 				power = MAX_POWER * angleKpi * azimuthKpi;
 			}

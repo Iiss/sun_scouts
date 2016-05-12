@@ -2,6 +2,7 @@ package ru.marstefo.sunscouts.models
 {
 	public class CellModel 
 	{
+		public var storm:Boolean;
 		public var sidesKpi:Vector.<Number>
 		private var _penalty:Number = 0;
 		private var _x:int;
