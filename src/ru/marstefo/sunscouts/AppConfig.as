@@ -7,9 +7,9 @@ package ru.marstefo.sunscouts
 	import robotlegs.bender.framework.api.IConfig;
 	import robotlegs.bender.framework.api.IInjector;
 	import ru.marstefo.sunscouts.commands.LoadAssetsCommand;
-	import ru.marstefo.sunscouts.models.LocaleModel;
-	import ru.marstefo.sunscouts.models.GameModel;
 	import ru.marstefo.sunscouts.mediators.AppMediator;
+	import ru.marstefo.sunscouts.models.GameModel;
+	import ru.marstefo.sunscouts.models.LocaleModel;
 	import ru.marstefo.sunscouts.services.CodeService;
 	import ru.marstefo.sunscouts.services.ICodeService;
 	

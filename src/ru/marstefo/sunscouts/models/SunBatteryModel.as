@@ -19,7 +19,7 @@ package ru.marstefo.sunscouts.models
 		private var _sidesKpi:Vector.<int>;
 		private var _currentState:String;
 		private var _isBroken:Boolean;
-		public var cell:CellModel;
+		private var _currentCell:CellModel;
 		
 		public function SunBatteryModel(scoutData:XML) 
 		{
@@ -44,6 +44,7 @@ package ru.marstefo.sunscouts.models
 		public function get opened():Boolean { return _opened; }
 		public function get isBroken():Boolean { return _isBroken; }
 		public function get currentState():String { return _currentState; }
+		public function get currentCell():CellModel { return _currentCell; }
 		
 		public function set enabled(value:Boolean):void
 		{

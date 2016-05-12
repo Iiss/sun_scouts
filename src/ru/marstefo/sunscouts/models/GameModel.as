@@ -3,6 +3,7 @@ package ru.marstefo.sunscouts.models
 	import flash.display.BitmapData;
 	import flash.events.EventDispatcher;
 	import flash.geom.Matrix;
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import ru.marstefo.sunscouts.events.GameModelEvent;
 	
@@ -32,9 +33,10 @@ package ru.marstefo.sunscouts.models
 			
 			for each (var node:XML in gamedata.cells.cell)
 			{
-				cell = new CellModel();
+				
 				cell_x = parseInt(node.@x);
 				cell_y = parseInt(node.@y);
+				cell = new CellModel(cell_x,cell_y);
 				cell.sidesKpi = new Vector.<Number>(numSides, true);
 				cell.penalty = parseFloat(node.@penalty);
 				
@@ -91,6 +93,16 @@ package ru.marstefo.sunscouts.models
 		public function get scouts():Vector.<SunBatteryModel>
 		{
 			return _scouts
+		}
+		
+		public function getCell(position:Point):CellModel
+		{
+			var index:int = position.y * _colTotal + position.x;
+			if (index < _moveMask.length)
+			{
+				return _moveMask[index];
+			}
+			return null;
 		}
 	}
 }
