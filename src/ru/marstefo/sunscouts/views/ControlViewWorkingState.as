@@ -2,10 +2,13 @@ package ru.marstefo.sunscouts.views
 {
 	import com.bit101.components.IndicatorLight;
 	import com.bit101.components.Knob;
+	import com.bit101.components.Label;
 	import com.bit101.components.Meter;
 	import com.bit101.components.PushButton;
 	import com.bit101.components.RadioButton;
 	import flash.display.Sprite;
+	import flash.geom.Point;
+	import ru.marstefo.sunscouts.models.CellModel;
 	
 	public class ControlViewWorkingState extends Sprite
 	{
@@ -19,6 +22,7 @@ package ru.marstefo.sunscouts.views
 		public var moveButton:PushButton;
 		private var _curAzimuth:int;
 		private var _azimuthRBtnList:Vector.<RadioButton>;
+		private var _positionLabel:Label;
 		
 		public function ControlViewWorkingState(isMobile:Boolean = false)
 		{
@@ -33,7 +37,6 @@ package ru.marstefo.sunscouts.views
 			var groupName:String = "scout" + (new Date().getTime().toString());
 			_azimuthRBtnList = new Vector.<RadioButton>();
 			
-			trace(groupName);
 			for (var i:int = 0; i < azimuthArr.length; i++)
 			{
 				rb = new RadioButton(this, 15 + (i % 2) * 36, 150 + Math.floor(i / 2) * 22, azimuthArr[i]);
@@ -46,14 +49,33 @@ package ru.marstefo.sunscouts.views
 			angleKnob.radius = 40;
 			angleKnob.maximum = 90;
 			
+			_positionLabel = new Label(this,10,285);
+			
 			if (isMobile)
 			{
+				_positionLabel.y = 250;
 				moveButton = new PushButton(this, 5, 275, 'Переместить');
 				moveButton.width = 200;
 				moveButton.height = 30;
 			}
 			
 			_validateAzimuth();
+			updatePositionInfo(null);
+		}
+		
+		public function updatePositionInfo(cell:CellModel):void
+		{
+			var xStr:String
+			var yStr:String 
+			xStr = yStr = "--";
+			
+			if (cell)
+			{
+				xStr = cell.x.toString();
+				yStr = cell.y.toString();
+			}
+			
+			_positionLabel.text = "Координаты: [" + xStr +":" + yStr + "]";
 		}
 		
 		public function get opened():Boolean

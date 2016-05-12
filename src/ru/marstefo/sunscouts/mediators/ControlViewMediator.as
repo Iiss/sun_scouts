@@ -48,12 +48,17 @@ package ru.marstefo.sunscouts.mediators
 			eventMap.mapListener(alertService, AlertEvent.ERROR, _onError);
 			view.currentState = model.currentState;
 			view.operateView.azimuth = model.azimuth;
+			view.operateView.updatePositionInfo(model.currentCell);
 		}
 		
 		private function _onModelPropChanged(e:ModelEvent):void
 		{
 			switch (e.data.toString())
 			{
+				case "currentCell":
+					view.operateView.updatePositionInfo(model.currentCell);
+					view.currentState = model.currentState;
+					break;
 				case "powerOut": 
 					view.operateView.power = model.powerOut;
 					break;

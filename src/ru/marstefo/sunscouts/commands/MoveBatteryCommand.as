@@ -25,8 +25,8 @@ package ru.marstefo.sunscouts.commands
 			var cell:CellModel = gameModel.getCell(cmdEvent.data.position);
 			if (cell)
 			{
-				scout.opened = false;
 				scout.currentCell = cell;
+				scout.opened = false;
 			}
 			else
 			{

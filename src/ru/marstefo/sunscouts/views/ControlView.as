@@ -82,8 +82,8 @@ package ru.marstefo.sunscouts.views
 			_lockView.unlockBtn.addEventListener(MouseEvent.MOUSE_DOWN, _requestUnlock);
 			
 			operateView = new ControlViewWorkingState(_model.canMove);
-			operateView.opened = _model.opened;
-			operateView.power = _model.powerOut;
+			//operateView.opened = _model.opened;
+			//operateView.power = _model.powerOut;
 			operateView.visible = false;
 			addChild(operateView);
 			

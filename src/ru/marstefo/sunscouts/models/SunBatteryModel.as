@@ -49,12 +49,14 @@ package ru.marstefo.sunscouts.models
 		public function set currentCell(value:CellModel):void
 		{
 			_setProperty('currentCell', value);
+			_validateState();
 		}
 		
 		public function set enabled(value:Boolean):void
 		{
 			_setProperty('enabled', value);
 			_validateState();
+			_updatePower();
 		}
 		
 		public function set opened(value:Boolean):void
