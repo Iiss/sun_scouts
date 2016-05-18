@@ -1,5 +1,7 @@
 package ru.marstefo.sunscouts.mediators 
 {
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 	import robotlegs.bender.bundles.mvcs.Mediator;
 	import ru.marstefo.sunscouts.models.GameModel;
 	import ru.marstefo.sunscouts.events.GameModelEvent;
@@ -11,7 +13,9 @@ package ru.marstefo.sunscouts.mediators
 		
 		[Inject]
 		public var view:Main;
-		
+		/// temp ///
+		private var _timer:Timer
+		///////////
 		public function AppMediator() 
 		{
 			super();
@@ -27,6 +31,18 @@ package ru.marstefo.sunscouts.mediators
 		{
 			view.map.bitmapData = gameModel.mapBitmapData;
 			view.redrawControls(gameModel.scouts);
+			
+			_timer = new Timer(1000);
+			_timer.addEventListener(TimerEvent.TIMER, _onTimer);
+		}
+		
+		private function _onTimer(e:TimerEvent):void
+		{
+			if (_timer.currentCount > gameModel.storm.time)
+			{
+				_timer.stop();
+				gameModel.applyStorm(gameModel.storm);
+			}
 		}
 	}
 }

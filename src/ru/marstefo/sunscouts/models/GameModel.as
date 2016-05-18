@@ -17,6 +17,10 @@ package ru.marstefo.sunscouts.models
 		private var _scouts:Vector.<SunBatteryModel>
 		private var _sides:Array;
 		
+		/// temp ////
+		private var _storm:StormModel;
+		/////////////
+		
 		public function configure(gamedata:XML, mapImg:BitmapData):void
 		{
 			var mapNode:XML = gamedata.map[0]
@@ -83,17 +87,20 @@ package ru.marstefo.sunscouts.models
 				}	
 				_scouts.push(scout);
 			}
+			
+			_storm = new StormModel();
+			_storm.setup(gamedata..storm[0]);
 			dispatchEvent(new GameModelEvent(GameModelEvent.GAME_READY));
 		}
 		
 		public function get mapBitmapData():BitmapData
 		{
-			return _mapBitmapData
+			return _mapBitmapData;
 		}
 		
 		public function get scouts():Vector.<SunBatteryModel>
 		{
-			return _scouts
+			return _scouts;
 		}
 		
 		public function getCell(position:Point):CellModel
@@ -105,5 +112,58 @@ package ru.marstefo.sunscouts.models
 			}
 			return null;
 		}
+		
+		/// temp ////
+		public function get storm():StormModel
+		{
+			return _storm;
+		}
+		
+		public function applyStorm(storm:StormModel):void
+		{
+			var stormMask:Vector.<Boolean> = new Vector.<Boolean>(_moveMask.length);
+			var pt:Point;
+			var index:int;
+			
+			for (var i:int = 0 ; i < storm.cells.length;i++ )
+			{
+				pt = storm.cells[i] as Point;
+				if (pt)
+				{
+					index = pt.y * _colTotal + pt.x;
+					if (index < stormMask.length)
+					{
+						stormMask[index] = true;
+					}
+				}
+			}
+			
+			var cell:CellModel;
+			
+			for (i = 0 ; i < _moveMask.length;i++ )
+			{
+				
+				cell = _moveMask[i] as CellModel;
+				if (index < stormMask.length)
+				{
+					cell.storm = stormMask[i]
+				}
+				cell.storm = false;
+			}
+			
+			var scout:SunBatteryModel;
+			for (i = 0; i < scouts.length; i++)
+			{
+				scout = scouts[i];
+				if (scout.currentCell)
+				{
+					if (!scout.isBroken)
+					{
+						scout.isBroken = getCell(new Point(scout.currentCell.x,scout.currentCell.y))
+					}
+				}
+			}
+		}
+		////////////
 	}
 }

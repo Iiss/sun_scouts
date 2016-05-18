@@ -4,21 +4,11 @@
 		<active_area x="5" y="5" w="5" h="5"/>
 	</map> 
 	<cells><!-- TODO добвавить пенальти от погоды не более одного комплекса в один квадрат-->
-		<cell x="38" y="5" sides_kpi="0,1,0,.5,.5,.5,.5,.5" penalty=".5"/>
-		<cell x="37" y="5" sides_kpi="0,1,0,.5,.5,.5,.5,.5" penalty=".5"/>
-		<cell x="37" y="4" sides_kpi="0,1,0,.5,.5,.5,.5,.5" penalty=".5"/>
-		<cell x="37" y="3" sides_kpi="0,1,0,.5,.5,.5,.5,.5" penalty=".5"/>
-		<cell x="36" y="3" sides_kpi="0,1,0,.5,.5,.5,.5,.5" penalty=".5"/>
-		<cell x="38" y="7" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/>
-		<cell x="38" y="9" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/>
-		<cell x="37" y="11" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/>
-		<cell x="39" y="11" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/>
-		<cell x="37" y="9" sides_kpi="0,1,0,.5,.5,.5,.5,.5"/>
-		
-		<cell x="38" y="10" sides_kpi="0,1,0,.5,.5,.5,.5,.5" penalty=".5" storm="1"/>
-		<cell x="36" y="5" sides_kpi=".5,1,0,.5,.5,.5,.5,.5"/>
-		
-		
+		<cell x="11" y="9" sides_kpi="1,1,1,1,1,1,1,1"/>
+		<cell x="3" y="12" sides_kpi="1,1,1,1,1,1,1,1"/>
+		<cell x="2" y="7" sides_kpi="1,1,1,1,1,1,1,1"/>
+		<cell x="4" y="14" sides_kpi="1,1,1,1,1,1,1,1"/>
+		<cell x="6" y="14" sides_kpi="1,1,1,1,1,1,1,1"/>
 	</cells>
 	<!--
 	Доступные аттрибуты
@@ -28,11 +18,12 @@
 	can_move = 0|1
 	-->
 	<sun_scouts>
-		<scout id="1" x="38" y="10" enabled="1" opened="0" />
-		<scout id="2" x="36" y="5" enabled="1" opened="1" />
-		<scout id="3" x="20" y="10" enabled="1" can_move="1"/>
-		<scout id="4" x="20" y="10" can_move="1"/>
+		<scout id="5" x="38" y="10" opened="0" can_move="1"/>
 	</sun_scouts>
+	<storms>
+		<storm delay="2700">
+		</storm>
+	</storms>
 	<!--
 	0:00 - 0:45 [38,10]
 	0:45 - окончание [37,10] [37,11] [38,11]

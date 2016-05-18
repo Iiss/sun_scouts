@@ -17,6 +17,7 @@ package
 	{
 		protected var context:IContext;
 		public var map:Bitmap;
+		private var _ui:Sprite;
 		
 		public function Main():void 
 		{
@@ -36,27 +37,39 @@ package
 			.configure(new ContextView(this)));
 			
 			map = new Bitmap();
-			addChild(map);
+			//addChild(map);
+			_ui = new Sprite();
+			addChild(_ui);
+			
+			stage.addEventListener(Event.RESIZE, _validate);
+		}
+		
+		private function _validate(e:*= null):void 
+		{
+			_ui.x = Math.floor(.5 * (stage.stageWidth - _ui.width));
+			_ui.y = Math.floor(.5 * (stage.stageHeight - _ui.height));
 		}
 		
 		public function redrawControls(source:Vector.<SunBatteryModel>):void
 		{
 			for (var i:int = numChildren - 1; i >= 0; i--)
 			{
-				if (getChildAt(i) as ControlView) removeChildAt(i);
+				if (getChildAt(i) as ControlView) _ui.removeChildAt(i);
 			}
 			
 			var cv:ControlView;
-			var gap:int = 5;
-			var columns:int = 2;
+			var gap:int = 10;
+			var columns:int = 4;
 			
 			for (i = 0; i < source.length; i++)
 			{
 				cv = new ControlView(source[i]);
-				addChild(cv);
+				_ui.addChild(cv);
 				cv.x = (i % columns) * (cv.width + gap);
 				cv.y = Math.floor(i / columns) * (cv.height + gap);
 			}
+			
+			_validate();
 		}
 	}
 }
